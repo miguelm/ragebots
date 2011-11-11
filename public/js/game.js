@@ -36,6 +36,10 @@ function init() {
 
     //socket = io.connect("http://localhost", {port: 3000, transports: ["websocket"]});
     //socket = new io.Socket();
+    //io.configure(function() {
+    //    io.set("transports", ["xhr-polling", "flashsocket", "json-polling"]);
+    //});
+
     socket = io.connect('/');
 
     remotePlayers = [];

@@ -9,8 +9,14 @@ var app = express.createServer(express.logger());
 var socket = io.listen(app);
 
 socket.configure(function() {
-    socket.set("transports", ["websocket"]);
-    socket.set("log level", 2);
+  socket.set('log level', 1);                    // reduce logging
+  socket.set('transports', [                     // enable all transports (optional if you want flashsocket)
+      'websocket'
+    , 'flashsocket'
+    , 'htmlfile'
+    , 'xhr-polling'
+    , 'jsonp-polling'
+  ]);
 });
 
 app.get('/index.htm', function (request, response) {
