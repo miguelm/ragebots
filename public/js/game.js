@@ -41,6 +41,10 @@ function init() {
     //});
 
     socket = io.connect('/');
+    socket.configure(function () {
+        socket.set('transports', ['flashsocket', 'xhr-polling']);
+    });
+
 
     remotePlayers = [];
     // Start listening for events
