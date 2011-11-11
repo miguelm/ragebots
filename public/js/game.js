@@ -13,7 +13,6 @@ var canvas,         // Canvas DOM element
 ** GAME INITIALISATION
 **************************************************/
 function init() {
-    alert("OHHAI")
     // Declare the canvas and rendering context
     canvas = document.getElementById("gameCanvas");
     ctx = canvas.getContext("2d");
@@ -41,9 +40,9 @@ function init() {
     //});
 
     socket = io.connect('/');
-    socket.configure(function () {
-        socket.set('transports', ['flashsocket', 'xhr-polling']);
-    });
+    //socket.configure(function () {
+    //    socket.set('transports', ['flashsocket', 'xhr-polling']);
+    //});
 
 
     remotePlayers = [];
