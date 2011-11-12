@@ -179,21 +179,21 @@ function playerById(id) {
 };
 
 function isLogged(){
-	return true;
+    return true;
 }
 
 function initialize()
 {
-	$("#logon").show();
-  	$("#design").hide();
-  	$("#email").focus();
+    $("#logon").show();
+    $("#design").hide();
+    //$("#email").focus();
 }
 
 function showDraw(){
-	if(isLogged()){
-		$("#logon").hide();
-	  	$("#design").show();
-   		init();
-    	animate();
-	}
+    if(isLogged()){
+        $("#logon").hide();
+        $("#design").show();
+        init();
+        animate();
+    }
 }

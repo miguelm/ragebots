@@ -1,5 +1,30 @@
+/*** MAIN PAGE STYLES ***/
+
 body {
     overflow: hidden;
+    background-color: #F1F2F2;
+    font-family: 'Terminal Dosis', sans-serif;
+}
+
+.page {
+    margin: 0 auto;
+    width: 98%;
+    max-width: 900px;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+    display: inline;
+    margin-left: 60px;
+}
+
+.logo {
+    display: inline;
+}
+
+.loginbutton {
+    float: right;
 }
 
 canvas {
