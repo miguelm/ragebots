@@ -181,27 +181,18 @@ function playerById(id) {
 };
 
 function isLogged(){
-<<<<<<< HEAD
-    return true;
-=======
+
 	if(logged == undefined)
 		return false
 	return logged;
->>>>>>> login using codebits api
 }
 
 function initialize()
 {
-<<<<<<< HEAD
-    $("#logon").show();
-    $("#design").hide();
-    //$("#email").focus();
-=======
 
 	$("#login").show();
   	$("#design").hide();
   	$("#email").focus();
->>>>>>> login using codebits api
 }
 
 function validate()
@@ -260,15 +251,6 @@ function getUrlBot(bot)
 
 
 function showDraw(){
-<<<<<<< HEAD
-    if(isLogged()){
-        $("#logon").hide();
-        $("#design").show();
-        init();
-        animate();
-    }
-}
-=======
 
 	if(isLogged()){
 
@@ -284,4 +266,4 @@ function validateEmail(elementValue){
    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
    return emailPattern.test(elementValue);  
  }
->>>>>>> login using codebits api
+
