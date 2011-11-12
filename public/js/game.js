@@ -34,7 +34,8 @@ function init(data) {
         startY = Math.round(Math.random()*(canvas.height-5));
 
     // Initialise the local player
-    localPlayer = new Player(startX, startY,data.uid);
+    localPlayer = new Player(startX, startY);
+	localPlayer.setName(data.uid);
 	addImage(data,localPlayer);
 
  	//socket = io.connect("http://localhost", {port: 3000, transports: ["websocket"]});
@@ -95,23 +96,26 @@ function onResize(e) {
 
 function onSocketConnected() {
     console.log("Connected to socket server");
-    socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY(), imgUrl: localPlayer.getImg(), name: localPlayer.getName()});
+    socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY(), imgURL: localPlayer.getImg(),name: localPlayer.getName()});
 
 };
-fl
+
 function onSocketDisconnect() {
     console.log("Disconnected from socket server");
 };
 
 function onNewPlayer(data) {
-    console.log("New player connected: "+data.id);
+	if(data.id != localPlayer.id && localPlayer != undefined && data.imgURL != undefined ){
+    	console.log("New player connected: "+data.id);
+		var url = data.imgURL
+    	var newPlayer = new Player(data.x, data.y);
+		newPlayer.id = data.id;
+		newPlayer.setImg(url);	
+		newPlayer.setName(data.name);
+		remotePlayers.push(newPlayer);
 
-    var newPlayer = new Player(data.x, data.y,data.name);
-    newPlayer.id = data.id;
-	newPlayer.setImg(data.imgUrl);	
-    remotePlayers.push(newPlayer);
-	$("#usersplaying").append("<li id="+data.name+"><div class='score'>1</div><img src='"+data.imgUrl+"'></img><div class='name'>"+data.name+"</div></li>");
-
+		$("#usersplaying").append("<li id="+newPlayer.getName()+"><div class='score'>1</div><img src='"+url+"'></img><div class='name'>"+newPlayer.getName()+"</div></li>");
+	}
 };
 
 function onMovePlayer(data) {
@@ -155,7 +159,7 @@ function animate() {
 **************************************************/
 function update() {
     if (localPlayer.update(keys)) {
-        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY(), imgUrl: localPlayer.getImg(), name:localPlayer.getName()});
+        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY(), name:localPlayer.getName(),imgUrl: localPlayer.getImg()});
     };
 };
 
@@ -236,8 +240,10 @@ function addImage(data, player)
 		 dataType: "jsonp",
 
 			success: function(bot){
-		    	player.setImg("https://codebits.eu"+bot.botfile);
-				$("#user").append("<img src= 'https://codebits.eu"+bot.botfile+"'></img><div class='name'>"+player.getName()+"</div>");
+				var url = "https://codebits.eu"+bot.botfile
+		    	player.setImg(url);
+				$("#user").append("<img src= '"+url+"'></img><div class='name'>"+player.getName()+"</div>");
+				$("#usersplaying").append("<li id="+player.getName()+"><div class='score'>1</div><img src='"+url+"'></img><div class='name'>"+player.getName()+"</div></li>");
 				socket = io.connect('/');
 			    // Start listening for events
 			    setEventHandlers();
@@ -257,11 +263,6 @@ function getUrlBot(bot)
 	return bot.body+","+bot.bgcolor+","+bot.grad+","+bot.eyes+","
 	+bot.mouth+","+bot.legs+","+bot.head+","+bot.arms
 	+","+(bot.balloon=="false"?"":escape(bot.balloon));
-}
-
-function setUrlImg(str)
-{
-	urlImg = str;
 }
 
 function showDraw(data){

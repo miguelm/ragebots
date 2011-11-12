@@ -109,20 +109,26 @@ function onClientDisconnect() {
 };
 
 function onNewPlayer(data) {
-    var newPlayer = new Player(data.x, data.y,data.name);
+	
+    var newPlayer = new Player(data.x, data.y);
     newPlayer.id = this.id;
-	newPlayer.setImg(data.imgUrl)
+	newPlayer.setName(data.name)
+	newPlayer.setImg(data.imgURL)
 
-this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY(), imgUrl: newPlayer.getImg(), name: newPlayer.getName()});
-console.log("eu "+data.imgUrl)
+this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY(), name: newPlayer.getName(),imgURL: newPlayer.getImg()});
+console.log("eu "+newPlayer.getImg())
+
 var i, existingPlayer;
+
 for (i = 0; i < players.length; i++) {
     existingPlayer = players[i];
-	console.log("outro "+existingPlayer.getImg())
-    this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY(), imgUrl: existingPlayer.getImg(), name: existingPlayer.getName()});
+	console.log("outro "+existingPlayer.getName())
+    this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY(),name: existingPlayer.getName(), imgURL: existingPlayer.getImg()});
 
 };
 
+
+	console.log("outro "+newPlayer.getName())
 players.push(newPlayer);
 
 };
@@ -138,9 +144,8 @@ function onMovePlayer(data) {
     movePlayer.setX(data.x);
     movePlayer.setY(data.y);
     movePlayer.setImg(data.imgUrl);
-	movePlayer.setName(data.name)
-
-    this.broadcast.emit("move player", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY(), imgUrl: movePlayer.getImg(), name: movePlayer.getName()});
+	
+    this.broadcast.emit("move player", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY(), name: movePlayer.getName(), imgURL: movePlayer.getImg()});
 };
 
 // Find player by ID

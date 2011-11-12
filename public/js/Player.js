@@ -1,15 +1,15 @@
 /**************************************************
 ** GAME PLAYER CLASS
 **************************************************/
-var Player = function(startX, startY, namebot) {
+var Player = function(startX, startY) {
 	
 	var imgUrl;
     var x = startX,
         y = startY,
         id,
         moveAmount = 2;
-	var name =namebot;
 	var img;
+	var name;
 
     var getX = function() {
         return x;

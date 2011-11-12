@@ -1,10 +1,10 @@
-var Player = function(startX, startY, nameBot) {
+var Player = function(startX, startY) {
 	
 	var imgUrl;
     var x = startX,
         y = startY,
-        id
-		name = nameBot;
+        id,
+		name;
 
     var getX = function() {
         return x;
