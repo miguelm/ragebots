@@ -1,7 +1,6 @@
 var Player = function(startX, startY, nameBot) {
 	
 	var imgUrl;
-	
     var x = startX,
         y = startY,
         id

@@ -43,15 +43,15 @@ function init(data) {
     //    io.set("transports", ["xhr-polling", "flashsocket", "json-polling"]);
     //});
 
-    socket = io.connect('/');
     //socket.configure(function () {
     //    socket.set('transports', ['flashsocket', 'xhr-polling']);
     //});
 
 
     remotePlayers = [];
-    // Start listening for events
-    setEventHandlers();
+
+	
+
 };
 
 /**************************************************
@@ -95,10 +95,10 @@ function onResize(e) {
 
 function onSocketConnected() {
     console.log("Connected to socket server");
-
     socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY(), imgUrl: localPlayer.getImg(), name: localPlayer.getName()});
-};
 
+};
+fl
 function onSocketDisconnect() {
     console.log("Disconnected from socket server");
 };
@@ -110,6 +110,8 @@ function onNewPlayer(data) {
     newPlayer.id = data.id;
 	newPlayer.setImg(data.imgUrl);	
     remotePlayers.push(newPlayer);
+	$("#usersplaying").append("<li id="+data.name+"><div class='score'>1</div><img src='"+data.imgUrl+"'></img><div class='name'>"+data.name+"</div></li>");
+
 };
 
 function onMovePlayer(data) {
@@ -132,7 +134,7 @@ function onRemovePlayer(data) {
         console.log("Player not found: "+data.id);
         return;
     };
-
+	$("#"+data.name).remove();
     remotePlayers.splice(remotePlayers.indexOf(removePlayer), 1);
 };
 
@@ -193,7 +195,6 @@ function isLogged(){
 
 function initialize()
 {
-
 	$("#login").show();
   	$("#design").hide();
   	$("#email").focus();
@@ -236,6 +237,11 @@ function addImage(data, player)
 
 			success: function(bot){
 		    	player.setImg("https://codebits.eu"+bot.botfile);
+				$("#user").append("<img src= 'https://codebits.eu"+bot.botfile+"'></img><div class='name'>"+player.getName()+"</div>");
+				socket = io.connect('/');
+			    // Start listening for events
+			    setEventHandlers();
+			//	$("#usersplaying").append("<li id="+player.getName()+"><div class='score'>1</div><img src='"+player.getImg()+"'></img><div class='name'>"+player.getName()+"</div></li>");
 				
 				// "https://services.sapo.pt/Codebits/botmake/"+getUrlBot(bot);
 				
@@ -274,4 +280,6 @@ function validateEmail(elementValue){
    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
    return emailPattern.test(elementValue);  
  }
+
+ 
 
