@@ -9,7 +9,7 @@ body {
 .page {
     margin: 0 auto;
     width: 98%;
-    max-width: 900px;
+    max-width: 1140px;
 	height: 800px;
 }
 
@@ -40,13 +40,13 @@ h1 {
 }
 canvas {
     display: block;
-    width:700px;
+    width:880px;
     height: 500px;
     border:1px solid black;
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
-/ Area with TextArea /
+/* Area with TextArea */
 .code
 {
     height: 200px;
@@ -55,29 +55,28 @@ canvas {
 
 .code textarea
 {
-    width:690px;
+    width: 99%;
     height: 180px;
-    border: 3px solid #cccccc;
 }
 
 /* Second Area, the Menu Area (First Menu with Players and Second menu with current Functions) */
 .menu
 {
     height:700px;
-    width: 180px;
+    width: 240px;
     float:left;
     margin: 10px 0px 0px 5px;
 }
 
 .menu > div
 {
-    height: 250px;
+    height: 300px;
     border-radius: 15px;
 }
 
 #info
 {
-    height: 450px;
+    height: 405px;
     background-color:black;
     padding-top:5px;
 }
@@ -93,7 +92,7 @@ canvas {
     margin:10px;
     color:black;
     max-height: 300px;
-    overflow:auto;
+    overflow:hidden;
 }
 
 #info li
@@ -107,8 +106,8 @@ a#submit
 {
     margin: 10px;
     position:absolute;
-    padding:40px 0px;
-    width: 160px;
+    padding:22px 0px;
+    width: 220px;
     color: white;
     text-align: center;
     background-color:red;
@@ -122,16 +121,23 @@ a#submit
     background-color:#82BA51;
 }
 
-#users img, #users div
+#users ul img, #users ul div
 {
     float:left;
 }
+
 #users img
 {
     height: 35px;
     width: 35px;
     margin: 0px 3px;
 }
+
+#user img
+{float: left;}
+#user
+{padding: 10px 0px 0px 20px;}
+
 .score
 {
     width: 15px;
@@ -146,9 +152,9 @@ padding: 5px;
 }
 #users ul
 {
-    padding-top:10px;
+    margin: 40px 0px;
     height: 200px;
-    overflow:auto;
+    overflow:hidden;
 }
 #users li
 {
