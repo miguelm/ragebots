@@ -8,13 +8,14 @@ var canvas,         // Canvas DOM element
     remotePlayers,
     socket;
 
-var logged;
+var logged, urlImg;
+
 
 
 /**************************************************
 ** GAME INITIALISATION
 **************************************************/
-function init() {
+function init(data) {
     // Declare the canvas and rendering context
     canvas = document.getElementById("gameCanvas");
     ctx = canvas.getContext("2d");
@@ -33,9 +34,10 @@ function init() {
         startY = Math.round(Math.random()*(canvas.height-5));
 
     // Initialise the local player
-    localPlayer = new Player(startX, startY);
+    localPlayer = new Player(startX, startY,data.uid);
+	addImage(data,localPlayer);
 
-    //socket = io.connect("http://localhost", {port: 3000, transports: ["websocket"]});
+ 	//socket = io.connect("http://localhost", {port: 3000, transports: ["websocket"]});
     //socket = new io.Socket();
     //io.configure(function() {
     //    io.set("transports", ["xhr-polling", "flashsocket", "json-polling"]);
@@ -94,7 +96,7 @@ function onResize(e) {
 function onSocketConnected() {
     console.log("Connected to socket server");
 
-    socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY()});
+    socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY(), imgUrl: localPlayer.getImg(), name: localPlayer.getName()});
 };
 
 function onSocketDisconnect() {
@@ -104,8 +106,9 @@ function onSocketDisconnect() {
 function onNewPlayer(data) {
     console.log("New player connected: "+data.id);
 
-    var newPlayer = new Player(data.x, data.y);
+    var newPlayer = new Player(data.x, data.y,data.name);
     newPlayer.id = data.id;
+	newPlayer.setImg(data.imgUrl);	
     remotePlayers.push(newPlayer);
 };
 
@@ -119,6 +122,7 @@ function onMovePlayer(data) {
 
     movePlayer.setX(data.x);
     movePlayer.setY(data.y);
+	movePlayer.setImg(data.imgUrl);	
 };
 
 function onRemovePlayer(data) {
@@ -149,7 +153,7 @@ function animate() {
 **************************************************/
 function update() {
     if (localPlayer.update(keys)) {
-        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY()});
+        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY(), imgUrl: localPlayer.getImg(), name:localPlayer.getName()});
     };
 };
 
@@ -207,9 +211,8 @@ function validate()
 		function(data) {
 			if(data.error == undefined)
 		   	{
-				addImage(data);
 				logged = true;
-				showDraw();
+				showDraw(data);
 			}
 			else
 			{
@@ -224,7 +227,7 @@ function validate()
 	
 }
 
-function addImage(data)
+function addImage(data, player)
 {
 	$.ajax({
 	     type: "GET",
@@ -232,9 +235,8 @@ function addImage(data)
 		 dataType: "jsonp",
 
 			success: function(bot){
+		    	player.setImg("https://codebits.eu"+bot.botfile);
 				
-				
-		    	url = "https://codebits.eu"+bot.botfile;
 				// "https://services.sapo.pt/Codebits/botmake/"+getUrlBot(bot);
 				
 			//	$("#loginform").append('<img id="botimage" src='+url +' />')
@@ -246,17 +248,23 @@ function addImage(data)
 
 function getUrlBot(bot)
 {
-	return bot.body+","+bot.bgcolor+","+bot.grad+","+bot.eyes+","+bot.mouth+","+bot.legs+","+bot.head+","+bot.arms+","+(bot.balloon=="false"?"":escape(bot.balloon));
+	return bot.body+","+bot.bgcolor+","+bot.grad+","+bot.eyes+","
+	+bot.mouth+","+bot.legs+","+bot.head+","+bot.arms
+	+","+(bot.balloon=="false"?"":escape(bot.balloon));
 }
 
+function setUrlImg(str)
+{
+	urlImg = str;
+}
 
-function showDraw(){
+function showDraw(data){
 
 	if(isLogged()){
 
 		$("#login").hide();
 	  	$("#design").show();
-		init();
+		init(data);
     	animate();
 
 	}

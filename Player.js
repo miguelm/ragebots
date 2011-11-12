@@ -1,7 +1,11 @@
-var Player = function(startX, startY) {
+var Player = function(startX, startY, nameBot) {
+	
+	var imgUrl;
+	
     var x = startX,
         y = startY,
-        id;
+        id
+		name = nameBot;
 
     var getX = function() {
         return x;
@@ -19,12 +23,33 @@ var Player = function(startX, startY) {
         y = newY;
     };
 
+    var getImg = function() {
+        return imgUrl;
+    };
+    var setImg = function(newImg) {
+        imgUrl = newImg;
+    };
+
+    var getName= function() {
+        return name;
+    };
+    var setName = function(newName) {
+        name = newName;
+    };
+
+
+
     return {
         getX: getX,
         getY: getY,
         setX: setX,
         setY: setY,
+		getImg: getImg,
+		setImg: setImg,
+		getName: getName,
+		setName: setName,
         id: id
+
     }
 };
 

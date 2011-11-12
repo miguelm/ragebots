@@ -1,13 +1,15 @@
 /**************************************************
 ** GAME PLAYER CLASS
 **************************************************/
-var Player = function(startX, startY) {
+var Player = function(startX, startY, namebot) {
 	
-	var img;
+	var imgUrl;
     var x = startX,
         y = startY,
         id,
         moveAmount = 2;
+	var name =namebot;
+	var img;
 
     var getX = function() {
         return x;
@@ -23,6 +25,20 @@ var Player = function(startX, startY) {
 
     var setY = function(newY) {
         y = newY;
+    };
+
+    var getImg = function() {
+        return imgUrl;
+    };
+    var setImg = function(newImg) {
+        imgUrl = newImg;
+    };
+
+    var getName = function() {
+        return name;
+    };
+    var setName = function(newName) {
+        name = newName;
     };
 
     var update = function(keys) {
@@ -46,7 +62,18 @@ var Player = function(startX, startY) {
     };
 
     var draw = function(ctx) {
-	     ctx.fillRect(x-5, y-5, 10, 10);
+	
+	if(img == undefined && imgUrl != undefined){
+		img = new Image();   // Create new img ele.ment  
+	    img.src = imgUrl;//"imgUrl"""; // Set source path
+		img.onload = function(){  
+		  ctx.drawImage(img, x, y, 80, 60)
+		};  
+
+	}else if(img != undefined)
+	{
+		 ctx.drawImage(img, x, y,80,60)
+	}
 
 }
 
@@ -55,6 +82,10 @@ var Player = function(startX, startY) {
         getY: getY,
         setX: setX,
         setY: setY,
+		getImg: getImg,
+		setImg: setImg,
+		getName: getName,
+		setName: setName,
         update: update,
         draw: draw
     }
