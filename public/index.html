@@ -10,6 +10,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
 <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="style/login.css">
+
+<!--Code Mirror -->
+<link rel="stylesheet" href="style/codemirror.css">
+<script src="js/CodeMirror/codemirror.js"></script>
+<script src="js/CodeMirror/javascript.js"></script>
+<link rel="stylesheet" href="style/elegant.css">
+
     <head>
         <title>RAGEBOTS - A multiplayer game built using HTML5 canvas and WebSockets</title>
         <meta charset="utf-8">
@@ -43,18 +50,16 @@
 				                <div id="info">
 				                    <span>Functions</span>
 				                    <ul>
-				                        <li>MoveUp()</li>
-				                        <li>MoveLeft()</li>
-				                        <li>MoveRight()</li>
-				                        <li>MoveDown()</li>
-				                            <li>MoveUp()</li>
-				                            <li>MoveLeft()</li>
-				                            <li>MoveRight()</li>
-				                            <li>MoveDown()</li>
-				                                <li>MoveUp()</li>
-				                                <li>MoveLeft()</li>
-				                                <li>MoveRight()</li>
-				                                <li>MoveDown()</li>
+				                        <li>up( )</li>
+				                        <li>down( )</li>
+				                        <li>right( )</li>
+				                        <li>left( )</li>
+				                        <li>nyan( )</li>
+				                        <li>stupidity( )</li>
+		                            	<li>troll( )</li>
+		                            	<li>rage( )</li>
+		                                <li>isEnemy?( )</li>
+		                                <li>foreverAlone( )</li>
 				                    </ul>
 				                    <a href="#" id="submit">SEND!</a>
 				                </div>
@@ -100,4 +105,11 @@
             initialize()
         </script>
     </body>
+<script type="text/javascript" charset="utf-8" async defer>
+var editor = CodeMirror.fromTextArea(document.getElementById("thecode"), {
+  lineNumbers: true,
+  matchBrackets: true
+});			
+  editor.setOption("theme", "elegant");
+</script>>
 </html>
