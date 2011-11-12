@@ -1,0 +1,70 @@
+#login {
+box-shadow: 0 0 8px rgba(255, 255, 255, 0.08) inset, 1px 1px 4px rgba(0, 0, 0, 0.4);
+background: rgba(20, 20, 20, 0.92);
+border: 1px solid;
+overflow: hidden;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+-o-border-radius: 8px;
+border-radius: 8px;
+padding: 14px;
+padding-left: 22px;
+color: #F9F9F9;
+border-color: #314305 black black #314305;
+}
+reset-fonts-grids.css:8
+#login, .yui-g, .yui-gb, .yui-gc, .yui-gd, .yui-ge, .yui-gf {
+zoom: 1;
+}
+reset-fonts-grids.css:7
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+margin: 0;
+padding: 0;
+}
+user agent stylesheet
+div {
+display: block;
+}
+Pseudo ::after element
+reset-fonts-grids.css:8
+#login::after, .yui-g::after, .yui-gb::after, .yui-gc::after, .yui-gd::after, .yui-ge::after, .yui-gf::after {
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+}
+Inherited from div#doc2.yui-t6.document
+reset-fonts-grids.css:8
+#doc, #doc2, #doc3, #doc4, .yui-t1, .yui-t2, .yui-t3, .yui-t4, .yui-t5, .yui-t6, .yui-t7 {
+text-align: left;
+}
+reset-fonts-grids.css:8
+#doc, #doc2, #doc3, #doc4, .yui-t1, .yui-t2, .yui-t3, .yui-t4, .yui-t5, .yui-t6, .yui-t7 {
+text-align: left;
+}
+Inherited from body
+/login/?rt=/intra:22
+body {
+font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+color: #999;
+}
+screen.css:12
+body {
+color: #F9F9F9;
+font-family: Helvetica, Arial, sans-serif;
+text-shadow: 1px 1px 1px black;
+}
+reset-fonts-grids.css:8
+body {
+text-align: center;
+}
+reset-fonts-grids.css:7
+body {
+font: 13px/1.231 arial,helvetica,clean,sans-serif;
+}
+Inherited from html
+reset-fonts-grids.css:7
+html {
+color: black;
+}
