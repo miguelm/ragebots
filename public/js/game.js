@@ -8,6 +8,8 @@ var canvas,         // Canvas DOM element
     remotePlayers,
     socket;
 
+var logged;
+
 
 /**************************************************
 ** GAME INITIALISATION
@@ -179,17 +181,86 @@ function playerById(id) {
 };
 
 function isLogged(){
+<<<<<<< HEAD
     return true;
+=======
+	if(logged == undefined)
+		return false
+	return logged;
+>>>>>>> login using codebits api
 }
 
 function initialize()
 {
+<<<<<<< HEAD
     $("#logon").show();
     $("#design").hide();
     //$("#email").focus();
+=======
+
+	$("#login").show();
+  	$("#design").hide();
+  	$("#email").focus();
+>>>>>>> login using codebits api
 }
 
+function validate()
+{
+	logged = false;
+	var email = $('#emailinput').val();  
+	var pwd = $('#passwordinput').val();  
+
+	if(validateEmail(email))
+	{
+		var jsonresp = $.getJSON("https://services.sapo.pt/Codebits/gettoken?user="+email+"&password="+pwd+"&callback=?",
+		function(data) {
+			if(data.error == undefined)
+		   	{
+				addImage(data);
+				logged = true;
+				showDraw();
+			}
+			else
+			{
+				alert("Your e-mail/password is invalid!");
+				
+			}
+		 });
+
+	}
+	else
+		alert("E-mail inválido!")	
+	
+}
+
+function addImage(data)
+{
+	$.ajax({
+	     type: "GET",
+	     url: "https://services.sapo.pt/Codebits/botuser/"+escape(data.uid),
+		 dataType: "jsonp",
+
+			success: function(bot){
+				
+				
+		    	url = "https://codebits.eu"+bot.botfile;
+				// "https://services.sapo.pt/Codebits/botmake/"+getUrlBot(bot);
+				
+			//	$("#loginform").append('<img id="botimage" src='+url +' />')
+		 	}
+		})
+	
+
+}
+
+function getUrlBot(bot)
+{
+	return bot.body+","+bot.bgcolor+","+bot.grad+","+bot.eyes+","+bot.mouth+","+bot.legs+","+bot.head+","+bot.arms+","+(bot.balloon=="false"?"":escape(bot.balloon));
+}
+
+
 function showDraw(){
+<<<<<<< HEAD
     if(isLogged()){
         $("#logon").hide();
         $("#design").show();
@@ -197,3 +268,20 @@ function showDraw(){
         animate();
     }
 }
+=======
+
+	if(isLogged()){
+
+		$("#login").hide();
+	  	$("#design").show();
+		init();
+    	animate();
+
+	}
+}
+
+function validateEmail(elementValue){  
+   var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
+   return emailPattern.test(elementValue);  
+ }
+>>>>>>> login using codebits api

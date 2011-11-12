@@ -2,6 +2,8 @@
 ** GAME PLAYER CLASS
 **************************************************/
 var Player = function(startX, startY) {
+	
+	var img;
     var x = startX,
         y = startY,
         id,
@@ -44,8 +46,9 @@ var Player = function(startX, startY) {
     };
 
     var draw = function(ctx) {
-        ctx.fillRect(x-5, y-5, 10, 10);
-    };
+	     ctx.fillRect(x-5, y-5, 10, 10);
+
+}
 
     return {
         getX: getX,
