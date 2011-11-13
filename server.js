@@ -77,9 +77,43 @@ app.listen(port, function() {
 var socket,
     players;
 
-function init() {
-    players = [];
+	
+/*Point Structure*/	
+ function point(x,y){ this.x=x;this.y=y; }
+/* 2D Array Constructor */
+ function Create2DArray(rows,cols) {
+      var arr = new  Array(rows);
+       for (var i = 0; i < rows; i++) {
+                 arr[i] = new Array(cols);
+                  for(var j=0;j<cols;j++)
+                   arr[i][j] = new point(0,0);
+                 }
 
+                        //console.log(arr[0][0]);
+              return arr;
+       }
+/* Create Game Field*/
+ function GameField(cellWidth,  cellHeight,  fieldWidth,  fieldHeight)
+   {
+       var matrixWidth = Math.floor(fieldWidth / cellWidth);
+       var matrixHeight = Math.floor((fieldHeight) / cellHeight);
+       var matrix =  Create2DArray(matrixWidth,matrixHeight);
+          
+       for(var i=0;i<matrixWidth;i++)
+         {
+         for (var j = 0; j < matrixHeight; j++)
+           {
+            matrix[i][j]= new point(i*cellWidth, j*cellHeight);
+                  
+            }
+          }
+           return matrix;
+ }
+function init() {
+    matrix = GameField(48,64,1440,672);
+ 
+	players = [];
+	
     setEventHandlers();
 };
 
@@ -92,8 +126,17 @@ function onSocketConnection(client) {
     client.on("disconnect", onClientDisconnect);
     client.on("new player", onNewPlayer);
     client.on("move player", onMovePlayer);
+	//client.on("go",onGo);
+	
+	 setInterval(function(){
+		    client.emit("go");
+			console.log("GO!")
+			;},1000);
 };
 
+
+
+function onGo(){}
 function onClientDisconnect() {
     util.log("Player has disconnected: "+this.id);
 
@@ -115,17 +158,18 @@ function onNewPlayer(data) {
 	newPlayer.setName(data.name)
 	newPlayer.setImg(data.imgURL)
 
-this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY(), name: newPlayer.getName(),imgURL: newPlayer.getImg()});
-console.log("eu "+newPlayer.getImg())
+	//this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
+this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY(), imgUrl: newPlayer.getImg(), name: newPlayer.getName()});
+this.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY(), imgUrl: newPlayer.getImg(), name: newPlayer.getName()});
 
+console.log("eu "+data.imgUrl)
 var i, existingPlayer;
-
-for (i = 0; i < players.length; i++) {
+/*for (i = 0; i < players.length; i++) {
     existingPlayer = players[i];
-	console.log("outro "+existingPlayer.getName())
-    this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY(),name: existingPlayer.getName(), imgURL: existingPlayer.getImg()});
+	console.log("outro "+existingPlayer.getImg())
+    this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY(), imgUrl: existingPlayer.getImg(), name: existingPlayer.getName()});
 
-};
+};*/
 
 
 	console.log("outro "+newPlayer.getName())
@@ -141,11 +185,26 @@ function onMovePlayer(data) {
         return;
     };
 
-    movePlayer.setX(data.x);
-    movePlayer.setY(data.y);
-    movePlayer.setImg(data.imgUrl);
+  		// Update player position
+	//	movePlayer.setX(data.x);
+	//	movePlayer.setY(data.y);
+		console.log("DATA.X " + data.x + " DATA.Y "+data.y);
+		var p = matrix[data.x ][data.y ];
+		movePlayer.setX(p.x);
+		movePlayer.setY(p.y);
+		movePlayer.setImg(data.imgUrl);
+		movePlayer.setName(data.name)
+	    console.log("Matrix.X " + p.x + " Matrix.Y " + p.y);
+		// Broadcast updated position to connected socket clients
+		//this.broadcast.emit("move player", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY()});
+	    
+	//this.broadcast.emit("move player", {id: movePlayer.id, x: p.x, y: p.y});
+	this.broadcast.emit("move player", {id: movePlayer.id, x: p.x, y: p.y, imgUrl: movePlayer.getImg(), name: movePlayer.getName()});
+	this.emit("move player", {id: movePlayer.id, x: p.x, y: p.y, imgUrl: movePlayer.getImg(), name: movePlayer.getName()});
 	
-    this.broadcast.emit("move player", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY(), name: movePlayer.getName(), imgURL: movePlayer.getImg()});
+	    //this.emit("move player", { id: movePlayer.id, x: p.x, y: p.y });
+ 
+
 };
 
 // Find player by ID

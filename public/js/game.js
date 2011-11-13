@@ -6,6 +6,8 @@ var canvas,         // Canvas DOM element
     keys,           // Keyboard input
     localPlayer,    // Local player
     remotePlayers,
+	dx,
+	dy,
     socket;
 
 var logged, urlImg;
@@ -26,7 +28,9 @@ function init(data) {
 
     // Initialise keyboard controls
     keys = new Keys();
-
+	
+	dx=1;
+	dy=0;
     // Calculate a random start position for the local player
     // The minus 5 (half a player size) stops the player being
     // placed right on the egde of the screen
@@ -71,11 +75,13 @@ var setEventHandlers = function() {
     socket.on("new player", onNewPlayer);
     socket.on("move player", onMovePlayer);
     socket.on("remove player", onRemovePlayer);
+	socket.on("go",onGo);
 };
 
 // Keyboard key down
 function onKeydown(e) {
     if (localPlayer) {
+		
         keys.onKeyDown(e);
     };
 };
@@ -87,6 +93,13 @@ function onKeyup(e) {
     };
 };
 
+function onGo()
+{
+	if (localPlayer.update(localPlayer.getX()+dx , localPlayer.getY()+dy)) 
+	{
+        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY()});
+	}
+}
 // Browser window resize
 function onResize(e) {
     // Maximise the canvas
@@ -122,19 +135,30 @@ function onMovePlayer(data) {
     var movePlayer = playerById(data.id);
 
     if (!movePlayer) {
+		localPlayer.setRealX(data.x);
+		localPlayer.setRealY(data.y);
+		if(data.imgUrl!=undefined)
+		  localPlayer.setImg(data.imgURL);
         console.log("Player not found: "+data.id);
         return;
     };
+	movePlayer.setRealX(data.x);
+	movePlayer.setRealY(data.y);
 
-    movePlayer.setX(data.x);
-    movePlayer.setY(data.y);
-	movePlayer.setImg(data.imgUrl);	
+    //movePlayer.setX(data.x);
+    //movePlayer.setY(data.y);
+	if(data.imgUrl!=undefined)
+		movePlayer.setImg(data.imgURL);	
 };
 
 function onRemovePlayer(data) {
     var removePlayer = playerById(data.id);
 
     if (!removePlayer) {
+		 localPlayer.setRealX(data.x);
+		    localPlayer.setRealY( data.y);
+
+	
         console.log("Player not found: "+data.id);
         return;
     };
@@ -158,9 +182,31 @@ function animate() {
 ** GAME UPDATE
 **************************************************/
 function update() {
-    if (localPlayer.update(keys)) {
-        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY(), name:localPlayer.getName(),imgUrl: localPlayer.getImg()});
-    };
+	
+	//Update direction
+	if (keys.up) {
+               dy = -1;
+				dx=0;
+          } else if (keys.down) {
+              dy = 1;
+			dx=0
+            };
+
+           // Left key takes priority over right
+           if (keys.left) {
+                dx =- 1;
+				dy=0;
+            } else if (keys.right) {
+                dx = 1;
+				dy=0;
+           };
+    /*if (localPlayer.update(keys)) {
+        socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY()});
+   		
+ };*/
+    //if (localPlayer.update(keys)) {
+    //    socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY(), imgUrl: localPlayer.getImg(), name:localPlayer.getName()});
+    //};
 };
 
 
